@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
@@ -26,6 +27,9 @@ public class CaptureService extends Service {
     private boolean running;
     private boolean cellCaptureActive;
 
+    private Runnable cacheWorker;
+    private Handler cacheHandle;
+
     private CaptureCache cache;
     private CellTowerFactory cellFactory;
 
@@ -44,11 +48,23 @@ public class CaptureService extends Service {
 
         cellFactory = new CellTowerFactory(context);
         cache = new CaptureCache(context);
+
+        cacheWorker = new Runnable() {
+            @Override
+            public void run() {
+                cache.flush();
+                cacheHandle.postDelayed(this, 120000);
+            }
+        };
+
+        cacheHandle = new Handler();
+
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         toggleCellCapture(sharedPref);
+        cacheHandle.post(cacheWorker);
         running = true;
         return START_STICKY;
     }

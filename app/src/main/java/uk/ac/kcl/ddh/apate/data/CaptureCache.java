@@ -75,7 +75,7 @@ public class CaptureCache {
     }
 
     public void flush() {
-        DaoSession daoSession = ((App) context).getDaoSession();
+        DaoSession daoSession = ((App) context.getApplicationContext()).getDaoSession();
 
         if (cellQueue.size() > 0) {
             CellReadingDao cellDao = daoSession.getCellReadingDao();
