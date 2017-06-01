@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/capture_settings"
+        android:key="pref_key_capture_settings">
+        <CheckBoxPreference
+            android:key="pref_key_capture_cells"
+            android:summary="@string/pref_capture_cells"
+            android:title="@string/pref_title_capture_cells"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+</PreferenceScreen>
