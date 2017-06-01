@@ -130,7 +130,9 @@ public class CaptureService extends Service {
         @Override
         public void onCellLocationChanged (CellLocation location) {
             CellReading cell = cellFactory.getReading(location);
-            CaptureCache.pushCell(context, cell, new Date());
+            if (cell != null) {
+                CaptureCache.pushCell(context, cell, new Date());
+            }
         }
     };
 
